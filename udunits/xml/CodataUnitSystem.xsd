@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified" vc:minVersion="1.1">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="https://www.w3.org/2009/01/xml.xsd"/>
+    <xs:element name="UnitSystem" type="UnitSystemType"/>
+    <xs:complexType name="UnitSystemType" abstract="false">
+        <xs:sequence>
+            <xs:element name="Prefixes">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="Prefix" type="PrefixType"> </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Quantities">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="Quantity">
+                            <xs:complexType>
+                                <xs:complexContent>
+                                    <xs:extension base="IdentifiableType">
+                                        <xs:sequence>
+                                            <xs:element ref="Name"/>
+                                            <xs:element maxOccurs="unbounded" minOccurs="0" ref="AlternateName"/>
+                                            <xs:element maxOccurs="unbounded" minOccurs="0" ref="Definition"/>
+                                        </xs:sequence>
+                                    </xs:extension>
+                                </xs:complexContent>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Units">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="Unit" type="UnitType"> </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Constants">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="Constant" type="ConstantType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="AlternateName" type="NameType">
+        <xs:annotation>
+            <xs:documentation>An entity alternate name</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType abstract="false" name="AlternateNameType">
+        <xs:complexContent>
+            <xs:extension base="NameType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" ref="Description"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="AlternateSymbolType">
+        <xs:simpleContent>
+            <xs:extension base="SymbolType"> </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="AlternateBase" type="BaseType">
+        <xs:annotation>
+            <xs:documentation>The Unit(s) this entity is derived from (does not need to be base SI units)
+</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="Base" type="BaseType">
+        <xs:annotation>
+            <xs:documentation>The Unit(s) this entity is derived from, expressed in SI base units</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType name="BaseType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="Expression"/>
+            <xs:element maxOccurs="unbounded" name="BaseUnit">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="UnitRef" type="ReferenceType"/>
+                        <xs:element name="Exponent" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ConstantType">
+        <xs:complexContent>
+            <xs:extension base="IdentifiableType">
+                <xs:sequence>
+                    <xs:element ref="Name"/>
+                    <xs:element ref="Symbol"/>
+                    <xs:element name="Value" type="xs:double"/>
+                    <xs:element name="UnitRef" type="ReferenceType"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Definition" type="InternationalString"/>
+    <xs:element name="Description" type="InternationalString"/>
+    <xs:complexType abstract="true" name="IdentifiableType">
+        <xs:attribute name="uri" type="xs:anyURI" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="InternationalString">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute ref="xml:lang" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="Name" type="NameType">
+        <xs:annotation>
+            <xs:documentation>The SI official name of the entity.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType abstract="false" name="NameType">
+        <xs:sequence>
+            <xs:element name="Singular" maxOccurs="unbounded" type="InternationalString"/>
+            <xs:element minOccurs="0" name="Plural" default="" maxOccurs="unbounded" type="InternationalString"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Symbol" type="SymbolType"/>
+    <xs:complexType name="SymbolType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute default="true" name="isSI" type="xs:boolean"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="PrefixType">
+        <xs:complexContent>
+            <xs:extension base="IdentifiableType">
+                <xs:sequence>
+                    <xs:element ref="Name"/>
+                    <xs:element ref="Symbol"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType abstract="false" name="ReferenceType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string"/>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="UnitType">
+        <xs:complexContent>
+            <xs:extension base="IdentifiableType">
+                <xs:sequence>
+                    <xs:element ref="Name"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="AlternateName"/>
+                    <xs:element ref="Symbol"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" name="AlternateSymbol" type="AlternateSymbolType"/>
+                    <xs:element ref="Definition" maxOccurs="unbounded" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>The entity official definition</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="QuantityRef" type="ReferenceType">
+                        <xs:annotation>
+                            <xs:documentation>A URI referencing a Quantiy</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element ref="Base"/>
+                    <xs:element minOccurs="0" ref="AlternateBase"/>
+                </xs:sequence>
+                <xs:attribute default="false" name="isDimensionless" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Indicates that this Unit is dimensionless</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>
