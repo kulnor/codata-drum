@@ -1,0 +1,1446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Second level derivation:
+    - Units/Unit: Compute BaseSI from Base
+    - Units/Unit: Compute @isDimensionless flag
+Second level validation:
+    - Prefixes/Prefix/@uri: must be unique and match pattern
+    - Quantities/Quantity/@uri: must be unique and match pattern
+    - Quantities/Quantity/@uri: must be unique and match pattern
+    - Units/Unit/BaseSI: Must be consistent with Base
+    - Units/Unit/@isDimensionless: Must be consistent with Base / BaseSI
+    - Make sure we do not have duplicate name, definition, and similar i18n elements in the same language
+Questions:
+    - Is base, common, derived, accepted an official categorization of units?
+    - Should xml:lamng always be specified, or is English an appropriate default value?
+        - What are the official SI languages (english/french?). Are there varitaion like en-us, fr-ca, etc? 
+    - Do we need to differentiate between AlternateName as synonym. abbreviation, or other variations? We also have an AlternateSymbol?
+    - Should AlternateName carry more information such as source/context/discipline? 
+    - Should we support multiple Unit/Definition, or add AlternateDefinition? Shoudl this carry a source/context/discipline?
+    - Should we have a format list of Discipline (concept/context)?
+    - Where do we really name the singular/plural distinction? Is it only for units?
+    - In udunits, why do synonyms have an underscrore (e.g. degree_kelvin)
+    - Should we adopt W3C MathML as a standard for mathematcial expressrion? This would probably only weork for XML (e.g. not JSON). What should be ageneric syntax/standard would be recommended?
+        - Which syntax should be used for Symbol (e.g. for m^2 where we have a superscript)
+        - We could have repeated elements with @syntax attributes (html_math latex, etc.)
+    - Should Base also be on the Quantity (not just on Unit)? Not all bases have a Quantity... Does the currennt model allows us to find the SI standard Base for a Quantity?
+    - Should we have specialized type for BaseUnit, DerivedUnit, etc. (rather than just Unit)
+    - Do all units have symbols? Like is kg/m^3 a symbol? Or just the derived unit? If so which is preferred when more than one exists?
+    - Is celsius temperature truly a quantity? Should it refine/relate to temperature?
+    - Should we add base concepts such as intensity, density, flux, etc.? Some quantites can be base concepts, others combaine/relate to base concepts (or other quanitites).
+    - Should Dose Equivalent variations be described as different quantities? And then could a unit like the Sievert be related to more than one quantity (see note)?    
+ Xpath
+ Unit of tenperature
+ /UnitSystem/Units/Unit[QuantityRef='SI:quantity:temperature']
+ 
+ All units related to the meter
+/UnitSystem/Units/Unit[Base/BaseUnit/UnitRef='SI:Unit:m']
+
+All units related to the meter and time
+/UnitSystem/Units/Unit[Base/BaseUnit/UnitRef='SI:Unit:m' and Base/BaseUnit/UnitRef='SI:Unit:s']
+ 
+ 
+-->
+<UnitSystem xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="file:CodataUnitSystem.xsd">
+    <Prefixes> </Prefixes>
+    <Quantities>
+        <Quantity uri="SI:quantity:absorbed_dose">
+            <Name>
+                <Singular xml:lang="en">Absorbed dose</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Specific energy imparted</Singular>
+            </AlternateName>
+            <AlternateName>
+                <Singular xml:lang="en">Kerma</Singular>
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:absorbed_dose_rate">
+            <Name>
+                <Singular xml:lang="en">Absorbed dose rate</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:acceleration">
+            <Name>
+                <Singular xml:lang="en">Acceleration</Singular>
+                <Singular xml:lang="fr">Accélération</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:activity_radionuclide">
+            <Name>
+                <Singular xml:lang="en">Activity of a radionuclide</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:area">
+            <Name>
+                <Singular xml:lang="en">Area</Singular>
+                <Singular xml:lang="fr">Aire</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:amount">
+            <Name>
+                <Singular xml:lang="en">Amount of substance</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:amount_concentration">
+            <Name>
+                <Singular xml:lang="en">Amount of substance concentration</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:angular_acceleration">
+            <Name>
+                <Singular xml:lang="en">Angular acceleration</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:angular_velocity">
+            <Name>
+                <Singular xml:lang="en">Angular velocity</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:dynamic_capacitance">
+            <Name>
+                <Singular xml:lang="en">Capacitance</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:catalytic_activity">
+            <Name>
+                <Singular xml:lang="en">Catalytic activity</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:catalytic_concentration">
+            <Name>
+                <Singular xml:lang="en">Catalytic activity concentration</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:dose_equivalent">
+            <Name>
+                <Singular xml:lang="en">Dose Equivalent</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Ambiant dose Equivalent</Singular>
+            </AlternateName>
+            <AlternateName>
+                <Singular xml:lang="en">Directional dose Equivalent</Singular>
+            </AlternateName>
+            <AlternateName>
+                <Singular xml:lang="en">Personal dose Equivalent</Singular>
+            </AlternateName>
+            <Note source="physics.nist.gov" xml:lang="en">Other quantities expressed in sieverts are ambient dose equivalent, directional dose equivalent, personal dose equivalent, and organ equivalent dose.</Note>
+        </Quantity>
+        <Quantity uri="SI:quantity:dynamic_viscosity">
+            <Name>
+                <Singular xml:lang="en">Dynamic viscosity</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:electric_current">
+            <Name>
+                <Singular xml:lang="en">Electrical current</Singular>
+                <Singular xml:lang="fr">Courant électrique</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:electric_current_density">
+            <Name>
+                <Singular xml:lang="en">Current density</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:electric_charge">
+            <Name>
+                <Singular xml:lang="en">Electric charge</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:electric_charge_density">
+            <Name>
+                <Singular xml:lang="en">Electric charge density</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Quantity of electricity</Singular>
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:electric_conductance">
+            <Name>
+                <Singular xml:lang="en">Electric conductance</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:electric_field_strength">
+            <Name>
+                <Singular xml:lang="en">Electric field strength</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:electric_flux_density">
+            <Name>
+                <Singular xml:lang="en">Electric flux density</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:electric_potential_difference">
+            <Name>
+                <Singular xml:lang="en">Electric potential difference</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Electromotive force</Singular>
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:electric_resistance">
+            <Name>
+                <Singular xml:lang="en">Electric resistance</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:energy">
+            <Name>
+                <Singular xml:lang="en">Energy</Singular>
+                <Singular xml:lang="fr">Energie</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Work</Singular>
+            </AlternateName>
+            <AlternateName>
+                <Singular xml:lang="en">Quantity of Heat</Singular>
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:energy_density">
+            <Name>
+                <Singular xml:lang="en">Energy density</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:exposure">
+            <Name>
+                <Singular xml:lang="en">Exposure</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:frequency">
+            <Name>
+                <Singular xml:lang="en">Frequency</Singular>
+                <Singular xml:lang="fr">Fréquence</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:force">
+            <Name>
+                <Singular xml:lang="en">Force</Singular>
+                <Singular xml:lang="fr">Force</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:heat_capacity">
+            <Name>
+                <Singular xml:lang="en">Heat capacity</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="">Entropy</Singular>
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:heat_flux_density">
+            <Name>
+                <Singular xml:lang="en">Heat flux density</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Irradiance</Singular>
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:illuminance">
+            <Name>
+                <Singular xml:lang="en">Illuminance</Singular>
+                <Singular xml:lang="fr">Illuminance</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:inductance">
+            <Name>
+                <Singular xml:lang="en">Inductance</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:length">
+            <Name>
+                <Singular xml:lang="en">Length</Singular>
+                <Singular xml:lang="fr">Longueur</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:luminance">
+            <Name>
+                <Singular xml:lang="en">Luminance</Singular>
+                <Singular xml:lang="fr">Luminance</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:luminous_flux">
+            <Name>
+                <Singular xml:lang="en">Luminous flux</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:luminous_intensity">
+            <Name>
+                <Singular xml:lang="en">Luminous intensity</Singular>
+                <Singular xml:lang="fr">Intensité lumineuse</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:magnetic_flux">
+            <Name>
+                <Singular xml:lang="en">Magnetic flux</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:magnetic_flux_density">
+            <Name>
+                <Singular xml:lang="en">Magnetic flux density</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:magnetic_field_strength">
+            <Name>
+                <Singular xml:lang="en">Magnetic field Strength</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:mass">
+            <Name>
+                <Singular xml:lang="en">Mass</Singular>
+                <Singular xml:lang="fr">Masse</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:mass_fraction">
+            <Name>
+                <Singular xml:lang="en">Mass fraction</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:molar_energy">
+            <Name>
+                <Singular xml:lang="en">Molar energy</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:molar_entropy">
+            <Name>
+                <Singular xml:lang="en">Molar entropy</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Molar heat capacity</Singular>
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:moment_of_force">
+            <Name>
+                <Singular xml:lang="en">Moment of force</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:permeability">
+            <Name>
+                <Singular xml:lang="en">Permeability</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:permittivity">
+            <Name>
+                <Singular xml:lang="en">Permittivity</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:plane_angle">
+            <Name>
+                <Singular xml:lang="en">Plane angle</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:pressure">
+            <Name>
+                <Singular xml:lang="en">Pressure</Singular>
+                <Singular xml:lang="fr">Pression</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Stress</Singular>
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:power">
+            <Name>
+                <Singular xml:lang="en">Power</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Radiant flux</Singular>
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:radiance">
+            <Name>
+                <Singular xml:lang="en">Radiance</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:radiant_intensity">
+            <Name>
+                <Singular xml:lang="en">Radiant intensity</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:specific_energy">
+            <Name>
+                <Singular xml:lang="en">Specific energy</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:specific_heat_capacity">
+            <Name>
+                <Singular xml:lang="en">Specific heat capacity</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Specific entropy</Singular>
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:specific_volume">
+            <Name>
+                <Singular xml:lang="en">Specific volume</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:solid_angle">
+            <Name>
+                <Singular xml:lang="en">Solid angle</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:temperature">
+            <Name>
+                <Singular xml:lang="en">Temperature</Singular>
+                <Singular xml:lang="fr">Température</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:temperature_celsius">
+            <Name>
+                <Singular xml:lang="en">Celsius temperature</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:surface_tension">
+            <Name>
+                <Singular xml:lang="en">Surface tension</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:thermal_conductivity">
+            <Name>
+                <Singular xml:lang="en">Thermal Conductivity</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:time">
+            <Name>
+                <Singular xml:lang="en">Time</Singular>
+                <Singular xml:lang="fr">Temps</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:velocity">
+            <Name>
+                <Singular xml:lang="en">Velocity</Singular>
+                <Singular xml:lang="fr">Vélocité</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Speed</Singular>
+                <Singular xml:lang="fr">Vitesse</Singular>               
+            </AlternateName>
+        </Quantity>
+        <Quantity uri="SI:quantity:volume">
+            <Name>
+                <Singular xml:lang="en">Volume</Singular>
+                <Singular xml:lang="fr">volume</Singular>
+            </Name>
+        </Quantity>
+        <Quantity uri="SI:quantity:wavenumber">
+            <Name>
+                <Singular xml:lang="en">Wavenumber</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">Wave number</Singular>
+            </AlternateName>
+            <AlternateName>
+                <Singular xml:lang="en">Repetency</Singular>
+            </AlternateName>
+        </Quantity>
+    </Quantities>
+    <Units>
+        <!-- BASE UNITS -->
+        <Unit uri="SI:Unit:A">
+            <Name>
+                <Singular xml:lang="en">ampere</Singular>
+                <Singular xml:lang="fr">ampère</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">amp</Singular>
+            </AlternateName>
+            <Symbol>A</Symbol>
+            <Definition xml:lang="en">The ampere is that constant current which, if maintained in two straight parallel conductors of infinite length, of negligible circular cross-section, and placed 1 meter apart in vacuum, would produce between these conductors a force equal to 2e-7 newton per meter of length.</Definition>
+            <QuantityRef>SI:quantity:electric_current</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        <Unit uri="SI:Unit:cd">
+            <Name>
+                <Singular xml:lang="en">candela</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">candle</Singular>
+                <Plural xml:lang="en">candles</Plural>
+            </AlternateName>
+            <Symbol>cd</Symbol>
+            <Definition xml:lang="en">The candela is the luminous intensity, in a given direction, of a source that emits monochromatic radiation of frequency 540e12 hertz and that has a radiant intensity in that direction of 1/683 watt per steradian.</Definition>
+            <QuantityRef>SI:quantity:luminous_intensity</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:cd</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        <Unit uri="SI:Unit:K">
+            <Name>
+                <Singular xml:lang="en">kelvin</Singular>
+                <Singular xml:lang="fr">kelvin</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">degree kelvin</Singular>
+                <Plural xml:lang="en">degrees kelvin</Plural>
+            </AlternateName>            
+            <AlternateName>
+                <Singular xml:lang="en">degree kelvin</Singular>
+                <Plural xml:lang="en">degrees kelvin</Plural>
+            </AlternateName>            
+            <AlternateName>
+                <Singular xml:lang="en">degree k</Singular>
+                <Plural xml:lang="en">degrees k</Plural>
+            </AlternateName>            
+            <AlternateName>
+                <Singular xml:lang="en">deg k</Singular>
+                <Plural xml:lang="en">deg k</Plural>
+            </AlternateName>            
+            <AlternateName>
+                <Singular xml:lang="en">degk</Singular>
+                <Plural xml:lang="en">degsk</Plural>
+            </AlternateName>            
+            <Symbol>K</Symbol>
+            <AlternateSymbol>&#xB0;K</AlternateSymbol>
+            <Definition xml:lang="en">The kelvin, unit of thermodynamic temperature, is the fraction 1/273.16 of the thermodynamic temperature of the triple point of water.</Definition>
+            <QuantityRef>SI:quantity:temperature</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:K</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        <Unit uri="SI:Unit:kg">
+            <Name>
+                <Singular xml:lang="en">kilogram</Singular>
+                <Singular xml:lang="fr">kilogramme</Singular>
+            </Name>
+            <Symbol>kg</Symbol>
+            <Definition xml:lang="en">The kilogram is the unit of mass; it is equal to the mass of the international prototype of the kilogram.</Definition>
+            <QuantityRef>SI:quantity:mass</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        <Unit uri="SI:Unit:m">
+            <Name>
+                <Singular xml:lang="en">meter</Singular>
+                <Singular xml:lang="fr">metre</Singular>
+            </Name>
+            <Symbol>m</Symbol>
+            <Definition xml:lang="en">The meter is the length of the path travelled by light in vacuum during a time interval of 1/299 792 458 of a second.</Definition>
+            <QuantityRef>SI:quantity:length</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        <Unit uri="SI:Unit:mol">
+            <Name>
+                <Singular xml:lang="en">mole</Singular>
+                <Singular xml:lang="fr">mole</Singular>
+            </Name>
+            <AlternateName>
+                <Singular xml:lang="en">einsten</Singular>
+            </AlternateName>            
+            <Symbol>mol</Symbol>
+            <Definition xml:lang="en">The mole is the amount of substance of a system which contains as many elementary entities as there are atoms in 0.012 kilogram of carbon 12. When the mole is used, the elementary entities must be specified and may be atoms, molecules, ions, electrons, other particles, or specified groups of such particles.</Definition>
+            <QuantityRef>SI:quantity:amount</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:mol</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        <Unit uri="SI:Unit:s">
+            <Name>
+                <Singular xml:lang="en">second</Singular>
+                <Singular xml:lang="fr">seconde</Singular>
+            </Name>
+            <Symbol>s</Symbol>
+            <AlternateSymbol>sec</AlternateSymbol>
+            <Definition xml:lang="en">The second is the duration of 9 192 631 770 periods of the radiation corresponding to the transition between the two hyperfine levels of the ground state of the cesium 133 atom.</Definition>
+            <QuantityRef>SI:quantity:time</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:second</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        <!-- TEMPERATURE DERIVED UNITS -->
+        <Unit uri="SI:Unit:celsius">
+            <Name>
+                <Singular xml:lang="en">degree celsius</Singular>
+                <Singular xml:lang="fr">degré celsius</Singular>
+            </Name>
+            <Symbol>&#xB0;C</Symbol>
+            <Definition xml:lang="en"></Definition>
+            <QuantityRef>SI:quantity:temperature_celsius</QuantityRef>
+            <Base>
+                <Expression>x-273.15</Expression>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:K</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <Expression>(x*1.8)+32</Expression>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:farenheit</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        <Unit uri="SI:Unit:farenheit">
+            <Name>
+                <Singular xml:lang="en">degree farenheit</Singular>
+                <Singular xml:lang="fr">degré farenheit</Singular>
+            </Name>
+            <Symbol>&#xB0;F</Symbol>
+            <Definition xml:lang="en"></Definition>
+            <QuantityRef>SI:quantity:temperature</QuantityRef>
+            <Base>
+                <Expression>((x-32)/1.8)+273.15</Expression>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:K</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <Expression>(x-32)/1.8</Expression>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:celcius</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        <!-- LENGTH RELATED UNITS -->
+        <Unit uri="SI:Unit:m2">
+            <Name>
+                <Singular xml:lang="en">square meter</Singular>
+                <Singular xml:lang="fr">mètre carré</Singular>
+            </Name>
+            <Symbol>m^2</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:area</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        <Unit uri="SI:Unit:m3">
+            <Name>
+                <Singular xml:lang="en">cubic meter</Singular>
+                <Singular xml:lang="fr">mètre cube</Singular>
+            </Name>
+            <Symbol>m^3</Symbol>
+            <Definition xml:lang="en"></Definition>
+            <QuantityRef>SI:quantity:volume</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>3</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+
+        <!-- VELOCITY RELATED UNITS -->
+        <Unit uri="SI:Unit:m1s-1">
+            <Name>
+                <Singular xml:lang="en">meter per second</Singular>
+                <Singular xml:lang="fr">mètre par seconde</Singular>
+            </Name>
+            <Symbol>m/s</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:velocity</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+
+        <!-- ACCELERATION RELATED UNITS -->
+        <Unit uri="SI:Unit:m1s-2">
+            <Name>
+                <Singular xml:lang="en">meter per second squared</Singular>
+                <Singular xml:lang="fr">mètre par seconde carrée</Singular>
+            </Name>
+            <Symbol>m/s^2</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:acceleration</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:second</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        <!-- WAVE NUMBER RELATED UNITS -->
+        <Unit uri="SI:Unit:1m-1">
+            <Name>
+                <Singular xml:lang="en">reciprocal meter</Singular>
+            </Name>
+            <Symbol>m^-1</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:wavenumber</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        <!-- MASS DENSITY RELATED UNITS -->
+        <Unit uri="SI:Unit:m3kg-1">
+            <Name>
+                <Singular xml:lang="en">kilogram per cubic meter</Singular>
+            </Name>
+            <Symbol>m^3/kg</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:specific_volume</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>3</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+
+        <!-- MASS DENSITY RELATED UNITS -->
+        <Unit uri="SI:Unit:A1m-2">
+            <Name>
+                <Singular xml:lang="en">ampere per square meter</Singular>
+            </Name>
+            <Symbol>A/m^2</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:electric_current_density</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        <!-- MAGNETIC FIELD STRENGTH RELATED UNITS -->
+        <Unit uri="SI:Unit:A1m-1">
+            <Name>
+                <Singular xml:lang="en">ampere per meter</Singular>
+            </Name>
+            <Symbol>A/m</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:magnetic_field_strength</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        <!-- AMOUNT CONCENTRATION RELATED UNITS -->
+        <Unit uri="SI:Unit:mol1m-3">
+            <Name>
+                <Singular xml:lang="en">mole per cubic meter</Singular>
+            </Name>
+            <Symbol>mol/m^3</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:amount_concentration</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:mol</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-3</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        <!-- LUMINANCE RELATED UNITS -->
+        <Unit uri="SI:Unit:cd1m-2">
+            <Name>
+                <Singular xml:lang="en">candela per square meter</Singular>
+            </Name>
+            <Symbol>cd/m^2</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:luminance</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:cd</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        <!-- MASS FRACTION RELATED UNITS -->
+        <Unit uri="SI:Unit:kg1kg-1" isDimensionless="true">
+            <Name>
+                <Singular xml:lang="en">kilogram per kilogram</Singular>
+            </Name>
+            <Symbol>m/m</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:mass_fraction</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        <!-- Table 3.  SI derived units with special names and symbols --> 
+        <Unit uri="SI:Unit:rad" isDimensionless="true">
+            <Name>
+                <Singular xml:lang="en">radian</Singular>
+            </Name>
+            <Symbol>rad</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:plane_angle</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+            <Note source="physics.nist.gov" xml:lang="en">The radian and steradian may be used advantageously in expressions for derived units to distinguish between quantities of a different nature but of the same dimension;</Note>
+        </Unit>
+        
+        
+        <Unit uri="SI:Unit:sr" isDimensionless="true">
+            <Name>
+                <Singular xml:lang="en">steradian</Singular>
+            </Name>
+            <Symbol>sr</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:solid_angle</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </Base>
+            <Note source="physics.nist.gov" xml:lang="en">The radian and steradian may be used advantageously in expressions for derived units to distinguish between quantities of a different nature but of the same dimension;</Note>
+        </Unit>
+        
+        <Unit uri="SI:Unit:hz">
+            <Name>
+                <Singular xml:lang="en">frequency</Singular>
+            </Name>
+            <Symbol>hz</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:frequency</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        <Unit uri="SI:Unit:N">
+            <Name>
+                <Singular xml:lang="en">newton</Singular>
+            </Name>
+            <Symbol>N</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:force</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+
+        <Unit uri="SI:Unit:Pa">
+            <Name>
+                <Singular xml:lang="en">pascal</Singular>
+            </Name>
+            <Symbol>Pa</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:pressure</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:N</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:J">
+            <Name>
+                <Singular xml:lang="en">joule</Singular>
+            </Name>
+            <Symbol>J</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:energy</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:N</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:W">
+            <Name>
+                <Singular xml:lang="en">watt</Singular>
+            </Name>
+            <Symbol>W</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:power</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-3</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:J</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:C">
+            <Name>
+                <Singular xml:lang="en">coulomb</Singular>
+            </Name>
+            <Symbol>C</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:electric_charge</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+
+        <Unit uri="SI:Unit:V">
+            <Name>
+                <Singular xml:lang="en">volt</Singular>
+            </Name>
+            <Symbol>V</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:electric_potential</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-3</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:W</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:F">
+            <Name>
+                <Singular xml:lang="en">farad</Singular>
+            </Name>
+            <Symbol>F</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:capacitance</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>4</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:C</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:V</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:ohm">
+            <Name>
+                <Singular xml:lang="en">ohm</Singular>
+            </Name>
+            <Symbol>&#937;</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:electric_resistance</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-3</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:V</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+
+        <Unit uri="SI:Unit:S">
+            <Name>
+                <Singular xml:lang="en">siemens</Singular>
+            </Name>
+            <Symbol>S</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:electric_conductance</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>3</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:V</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:Wb">
+            <Name>
+                <Singular xml:lang="en">weber</Singular>
+            </Name>
+            <Symbol>Wb</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:magnetic_flux</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:V</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+
+        <Unit uri="SI:Unit:T">
+            <Name>
+                <Singular xml:lang="en">tesla</Singular>
+            </Name>
+            <Symbol>T</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:magnetic_flux_density</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:Wb</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:H">
+            <Name>
+                <Singular xml:lang="en">henry</Singular>
+            </Name>
+            <Symbol>T</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:inductance</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:Wb</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:A</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:lm">
+            <Name>
+                <Singular xml:lang="en">lumen</Singular>
+            </Name>
+            <Symbol>lm</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:luminous_flux</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:cd</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:cd</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:sr</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+            <Note source="physics.nist.gov" xml:lang="en">In photometry, the unit name steradian and the unit symbol sr are usually retained in expressions for derived units.</Note>
+        </Unit>
+        
+        <Unit uri="SI:Unit:lx">
+            <Name>
+                <Singular xml:lang="en">lux</Singular>
+            </Name>
+            <Symbol>lx</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:illuminance</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>-4</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:cd</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:lm</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:Bq">
+            <Name>
+                <Singular xml:lang="en">becquerel</Singular>
+            </Name>
+            <Symbol>lx</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:activity_radionuclide</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        <Unit uri="SI:Unit:Gy">
+            <Name>
+                <Singular xml:lang="en">gray</Singular>
+            </Name>
+            <Symbol>Gy</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:absorbed_dose</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:J</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:Sv">
+            <Name>
+                <Singular xml:lang="en">sievert</Singular>
+            </Name>
+            <Symbol>Sv</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:dose_equivalent</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:m</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>2</Exponent>
+                </BaseUnit>
+            </Base>
+            <AlternateBase>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:J</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:kg</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+            </AlternateBase>
+        </Unit>
+        
+        <Unit uri="SI:Unit:kat">
+            <Name>
+                <Singular xml:lang="en">katal</Singular>
+            </Name>
+            <Symbol>kat</Symbol>
+            <Definition xml:lang="en"/>
+            <QuantityRef>SI:quantity:catalytic_activity</QuantityRef>
+            <Base>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:s</UnitRef>
+                    <Exponent>-1</Exponent>
+                </BaseUnit>
+                <BaseUnit>
+                    <UnitRef>SI:Unit:mol</UnitRef>
+                    <Exponent>1</Exponent>
+                </BaseUnit>
+            </Base>
+        </Unit>
+        
+        
+    </Units>
+    <Constants> </Constants>
+</UnitSystem>

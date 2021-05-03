@@ -22,6 +22,7 @@
                                             <xs:element ref="Name"/>
                                             <xs:element maxOccurs="unbounded" minOccurs="0" ref="AlternateName"/>
                                             <xs:element maxOccurs="unbounded" minOccurs="0" ref="Definition"/>
+                                            <xs:element maxOccurs="unbounded" minOccurs="0" ref="Note"/>
                                         </xs:sequence>
                                     </xs:extension>
                                 </xs:complexContent>
@@ -46,6 +47,12 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    <xs:element name="AlternateBase" type="BaseType">
+        <xs:annotation>
+            <xs:documentation>The Unit(s) this entity is derived from (does not need to be base SI units)
+</xs:documentation>
+        </xs:annotation>
+    </xs:element>
     <xs:element name="AlternateName" type="NameType">
         <xs:annotation>
             <xs:documentation>An entity alternate name</xs:documentation>
@@ -61,17 +68,12 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:element name="AlternateSymbol" type="AlternateSymbolType"/>
     <xs:complexType name="AlternateSymbolType">
         <xs:simpleContent>
             <xs:extension base="SymbolType"> </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
-    <xs:element name="AlternateBase" type="BaseType">
-        <xs:annotation>
-            <xs:documentation>The Unit(s) this entity is derived from (does not need to be base SI units)
-</xs:documentation>
-        </xs:annotation>
-    </xs:element>
     <xs:element name="Base" type="BaseType">
         <xs:annotation>
             <xs:documentation>The Unit(s) this entity is derived from, expressed in SI base units</xs:documentation>
@@ -98,6 +100,7 @@
                     <xs:element ref="Symbol"/>
                     <xs:element name="Value" type="xs:double"/>
                     <xs:element name="UnitRef" type="ReferenceType"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="Note"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -125,7 +128,19 @@
             <xs:element minOccurs="0" name="Plural" default="" maxOccurs="unbounded" type="InternationalString"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:element name="Symbol" type="SymbolType"/>
+    <xs:element name="Note" type="NoteType"/>
+    <xs:complexType name="NoteType">
+        <xs:simpleContent>
+            <xs:extension base="InternationalString">
+                <xs:attribute name="source" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:element name="Symbol" type="SymbolType">
+        <xs:annotation>
+            <xs:documentation>The entity's official SI symbol (in HTML Unicode format)</xs:documentation>
+        </xs:annotation>
+    </xs:element>
     <xs:complexType name="SymbolType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
@@ -139,6 +154,7 @@
                 <xs:sequence>
                     <xs:element ref="Name"/>
                     <xs:element ref="Symbol"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="Note"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -154,9 +170,13 @@
                 <xs:sequence>
                     <xs:element ref="Name"/>
                     <xs:element maxOccurs="unbounded" minOccurs="0" ref="AlternateName"/>
-                    <xs:element ref="Symbol"/>
-                    <xs:element maxOccurs="unbounded" minOccurs="0" name="AlternateSymbol" type="AlternateSymbolType"/>
-                    <xs:element ref="Definition" maxOccurs="unbounded" minOccurs="0">
+                    <xs:element ref="Symbol">
+                        <xs:annotation>
+                            <xs:documentation/>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="AlternateSymbol"/>
+                    <xs:element ref="Definition" maxOccurs="unbounded">
                         <xs:annotation>
                             <xs:documentation>The entity official definition</xs:documentation>
                         </xs:annotation>
@@ -168,6 +188,7 @@
                     </xs:element>
                     <xs:element ref="Base"/>
                     <xs:element minOccurs="0" ref="AlternateBase"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="Note"/>
                 </xs:sequence>
                 <xs:attribute default="false" name="isDimensionless" type="xs:boolean">
                     <xs:annotation>
