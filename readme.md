@@ -27,9 +27,9 @@ The open source [BaseX XML Database]() is being used for querying the knowledge 
 The XML directory contains the following:
 
 - Copies of the UDUNIT XML database files
-- The current XML [schema definition (xsd)](xml/CodataUnitSystem.xsd) and [generated documentation](xml/CodataUnitSystem.html)
-- A [test XML file](xml/CodataUnitSystem.xml) with metadata converted so far
-- The [HTML report](xml/QuantityReport.html) generated from XML
+- The current XML schema definition (xsd) and documentation
+- A test XML file with metadata converted so far
+- HTML content/QA reports generated from XML
 
 Note that we are using XML for convenience, future outputs will be available in other formats and representations (e.g. JSON, RDF, etc.)
 
